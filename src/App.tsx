@@ -1,12 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { gql, useQuery } from "@apollo/client";
+import React from "react";
+import "./App.css";
+import { GetBooks } from "./__generated__/GetBooks";
+
+const GET_BOOKS = gql`
+  query GetBooks {
+    books {
+      title
+      author
+    }
+  }
+`;
 
 function App() {
+  const { loading, error, data } = useQuery<GetBooks>(GET_BOOKS);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+
+  console.log("data", data);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
